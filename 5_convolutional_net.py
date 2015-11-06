@@ -40,7 +40,7 @@ def RMSprop(cost, params, lr=0.001, rho=0.9, epsilon=1e-6):
         updates.append((p, p - lr * g))
     return updates
 
-def model(X, w, w2, w3, w4, p_drop_conv, p_drop_hidden):
+def model(X, w, w2, w3, w4, w_o, p_drop_conv, p_drop_hidden):
     l1a = rectify(conv2d(X, w, border_mode='full'))
     l1 = max_pool_2d(l1a, (2, 2))
     l1 = dropout(l1, p_drop_conv)
@@ -74,8 +74,8 @@ w3 = init_weights((128, 64, 3, 3))
 w4 = init_weights((128 * 3 * 3, 625))
 w_o = init_weights((625, 10))
 
-noise_l1, noise_l2, noise_l3, noise_l4, noise_py_x = model(X, w, w2, w3, w4, 0.2, 0.5)
-l1, l2, l3, l4, py_x = model(X, w, w2, w3, w4, 0., 0.)
+noise_l1, noise_l2, noise_l3, noise_l4, noise_py_x = model(X, w, w2, w3, w4, w_o, 0.2, 0.5)
+l1, l2, l3, l4, py_x = model(X, w, w2, w3, w4, w_o, 0., 0.)
 y_x = T.argmax(py_x, axis=1)
 
 
